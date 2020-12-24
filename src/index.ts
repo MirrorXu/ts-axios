@@ -1,7 +1,7 @@
-import { IAxiosRequestConfig } from './types'
+import { IAxiosRequestConfig , IAxiosPromise, IAxiosResponse } from './types'
 import xhr from './xhr'
 import { buildURL } from './helpers/url'
-import { transformRequest } from './helpers/data'
+import { transformRequest, transformResponse } from './helpers/data'
 import { processHeaders } from './helpers/headers'
 
 // 处理config参数
@@ -26,15 +26,23 @@ function transformRequestData(config:IAxiosRequestConfig):any{
   return transformRequest(config.data)
 }
 
+// 处理 响应 data
+
+function transformResponseData(res:IAxiosResponse):IAxiosResponse{
+  res.data =  transformResponse(res.data)
+  return res
+}
 
 
 
 
-function axios(config:IAxiosRequestConfig):void{
-  // debugger
-  // todo
+function axios(config: IAxiosRequestConfig): IAxiosPromise {
+
   processConfig(config)
-  xhr(config)
+
+  return xhr(config).then(res=>{
+    return transformResponseData(res)
+  })
 }
 
 export default axios
