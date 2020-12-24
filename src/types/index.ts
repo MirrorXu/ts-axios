@@ -4,9 +4,10 @@ export interface IAxiosRequestConfig {
   url: string,
   method?: Method,
   data?: any,
-  params?: any,
-  headers?: any,
-  responseType?: XMLHttpRequestResponseType
+  params?: any,  // 以URL拼接的形式
+  headers?: any, // 指定headers
+  responseType?: XMLHttpRequestResponseType,  //
+  timeout?:number  // 网络超时时间设置
 }
 
 
