@@ -1,7 +1,6 @@
 import { IAxiosRequestConfig, IAxiosPromise, IAxiosResponse } from './types/index'
 import { parseHeaders } from './helpers/headers'
-import { resolve } from 'dns'
-import { rejects } from 'assert'
+import {createError} from './helpers/error'
 
 
 
@@ -67,11 +66,11 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
     }
     // 网络错误
     request.onerror = function handleError() {
-      reject(new Error('网络错误'))
+      reject(createError('网络错误' , config , null , request))
     }
     // 超时错误
     request.ontimeout = function handleRequestTimeOut() {
-      reject(new Error(`网络请求超时 ${timeout} ms - ${config.url}`))
+      reject(createError(`网络请求超时${timeout} ms` , config , 'ECONNABORTED',request))
     }
     // 终止时事件
     request.abort = function() {
@@ -86,7 +85,7 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
-        reject(response)
+        reject(createError(`请求失败${response.statusText}` , config , null , response ,response))
       }
     }
   })
