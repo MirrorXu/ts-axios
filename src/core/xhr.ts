@@ -1,6 +1,6 @@
-import { IAxiosRequestConfig, IAxiosPromise, IAxiosResponse } from './types/index'
-import { parseHeaders } from './helpers/headers'
-import {createError} from './helpers/error'
+import { IAxiosRequestConfig, IAxiosPromise, IAxiosResponse } from '../types/index'
+import { parseHeaders } from '../helpers/headers'
+import {createError} from '../helpers/error'
 
 
 
@@ -12,7 +12,7 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
     const request = new XMLHttpRequest()
 
     // 初始化请求
-    request.open(method.toUpperCase(), url, true)
+    request.open(method.toUpperCase(), url!, true)
 
     // 指定responseType
     if (responseType) {
