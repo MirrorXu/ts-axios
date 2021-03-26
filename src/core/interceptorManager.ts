@@ -1,6 +1,6 @@
 import { IAxiosInterceptorManager, ResolvedFn, RejectedFn } from '../types'
 
-// 定义拦截对象
+// 定义拦截对象type
 interface Interceptor<T> {
   resolved: ResolvedFn<T>
   rejected?: RejectedFn
